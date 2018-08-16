@@ -17,6 +17,7 @@
 
 package spoon.test.method;
 
+import com.fasterxml.jackson.databind.SerializationConfig;
 import org.junit.Test;
 import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
@@ -26,6 +27,7 @@ import spoon.reflect.declaration.ModifierKind;
 import spoon.reflect.factory.Factory;
 import spoon.reflect.visitor.filter.NamedElementFilter;
 import spoon.test.delete.testclasses.Adobada;
+import spoon.test.method.testclasses.Matriochka;
 import spoon.test.method.testclasses.Tacos;
 
 import java.util.ArrayList;
@@ -86,6 +88,13 @@ public class MethodTest {
 		l.buildModel();
 		Set<CtMethod<?>> methods = l.getFactory().Class().get("A3").getAllMethods();
 		assertEquals(1, methods.stream().filter(method -> "foo".equals(method.getSimpleName())).count());
+	}
+
+	@Test
+	public void testGetAllMethodsOnClassThatHaveItsOwnTypeInGeneric() throws Exception {
+		final Class<?> aClass = Matriochka.class;
+		final CtType<?> ctType = createFactory().Class().get(aClass);
+		ctType.getAllMethods();
 	}
 
 	@Test
